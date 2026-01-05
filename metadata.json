@@ -1,0 +1,6 @@
+
+{
+  "name": "三角形计算器",
+  "description": "一个交互式的几何工具，用于使用直接操作和指定输入两种模式，计算三角形属性。",
+  "requestFramePermissions": []
+}

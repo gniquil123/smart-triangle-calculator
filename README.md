@@ -1,20 +1,147 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 智能三角形计算器
 
-# Run and deploy your AI Studio app
+一个功能强大的交互式三角形计算器，支持多种计算模式和主题设置，帮助用户快速准确地计算和可视化三角形的各种属性。
 
-This contains everything you need to run your app locally.
+## 功能特性
 
-View your app in AI Studio: https://ai.studio/apps/temp/1
+### 📐 计算模式
+- **交互模式**：直接拖拽三角形顶点或点击数值进行实时编辑和计算
+- **录入模式**：通过输入参数计算三角形
+  - 边角边（SAS）：已知两边及其夹角
+  - 角边角（ASA）：已知两角及其夹边
 
-## Run Locally
+### 🎨 主题设置
+- **深色/浅色主题**：根据偏好或环境切换
+- **色彩主题**：
+  - 默认色彩
+  - 红绿色盲友好模式
+  - 蓝黄色盲友好模式
 
-**Prerequisites:**  Node.js
+### 🔍 可视化功能
+- 实时显示三角形的边长和角度
+- 可缩放视图，调整显示比例
+- 网格背景，辅助定位和观察
+- 动态错误提示，当输入不满足三角形条件时
 
+### ✨ 其他特性
+- 重置功能，快速恢复默认状态
+- 响应式设计，适配不同屏幕尺寸
+- 平滑的动画过渡效果
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 技术栈
+
+- **框架**：React 19
+- **语言**：TypeScript
+- **构建工具**：Vite
+- **样式**：Tailwind CSS
+
+## 安装与运行
+
+### 安装依赖
+```bash
+npm install
+```
+
+### 开发模式
+```bash
+npm run dev
+```
+
+### 构建生产版本
+```bash
+npm run build
+```
+
+### 预览生产版本
+```bash
+npm run preview
+```
+
+## 项目结构
+
+```
+smart-triangle-calculator/
+├── components/          # 组件目录
+│   └── TriangleCanvas.tsx  # 三角形画布组件
+├── utils/              # 工具函数
+│   └── geometry.ts     # 几何计算相关函数
+├── App.tsx             # 主应用组件
+├── constants.tsx       # 常量定义
+├── index.html          # HTML入口文件
+├── index.tsx           # React入口文件
+├── metadata.json       # 项目元数据
+├── package.json        # 项目配置
+├── tsconfig.json       # TypeScript配置
+├── types.ts            # 类型定义
+└── vite.config.ts      # Vite配置
+```
+
+## 使用说明
+
+### 交互模式
+1. 在交互模式下，三角形的顶点可以直接拖拽
+2. 点击三角形的边长或角度数值，可以直接修改
+3. 系统会实时验证并更新三角形
+4. 使用右侧的缩放滑块调整视图大小
+
+### 录入模式
+1. 切换到录入模式
+2. 选择计算方式（边角边或角边角）
+3. 输入相应的参数
+4. 点击"计算三角形"按钮
+5. 系统会生成符合条件的三角形并显示
+
+### 主题设置
+1. 点击顶部的太阳/月亮图标切换深色/浅色主题
+2. 点击色彩主题下拉菜单选择色盲友好模式
+
+## 核心算法
+
+### 三角形验证
+- 使用三角形不等式定理验证三边是否能构成三角形
+- 验证角度和是否为180度
+
+### 计算方法
+- **边角边（SAS）**：使用余弦定理计算第三边，再计算其他角度
+- **角边角（ASA）**：先计算第三个角度，再使用正弦定理计算其他两边
+- **顶点拖拽**：根据新的顶点位置重新计算边长和角度
+
+## 类型定义
+
+主要类型包括：
+- `TriangleState`：三角形状态，包含顶点、边长和角度
+- `CalculationMode`：计算模式枚举
+- `StructuredType`：结构化计算类型枚举
+- `ColorTheme`：色彩主题枚举
+- `ThemeMode`：主题模式枚举
+
+## 浏览器兼容性
+
+支持所有现代浏览器：
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
+
+## 许可证
+
+MIT License
+
+## 贡献
+
+欢迎提交Issue和Pull Request！
+
+## 更新日志
+
+### v1.0.0
+- 初始版本发布
+- 实现交互模式和录入模式
+- 支持主题切换
+- 支持色盲友好模式
+- 实现缩放功能
+- 动态错误提示
+
+## 作者
+- 项目负责人：[gniquil123]
+- 邮箱：[gniquil123@126.com]
+- GitHub：[https://github.com/gniquil123/smart-triangle-calculator](https://github.com/gniquil123/smart-triangle-calculator)

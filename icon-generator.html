@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triangle Icon Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .icon {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        canvas {
+            border: 1px solid #ddd;
+        }
+        button {
+            margin: 10px 5px;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Triangle Icon Generator</h1>
+    <p>Generate triangle icons for Android app in different resolutions</p>
+    
+    <div class="container">
+        <!-- mdpi (48x48) -->
+        <div class="icon">
+            <h3>mdpi (48x48)</h3>
+            <canvas id="mdpi" width="48" height="48"></canvas>
+            <button onclick="downloadIcon('mdpi', 48, 48)">Download</button>
+        </div>
+        
+        <!-- hdpi (72x72) -->
+        <div class="icon">
+            <h3>hdpi (72x72)</h3>
+            <canvas id="hdpi" width="72" height="72"></canvas>
+            <button onclick="downloadIcon('hdpi', 72, 72)">Download</button>
+        </div>
+        
+        <!-- xhdpi (96x96) -->
+        <div class="icon">
+            <h3>xhdpi (96x96)</h3>
+            <canvas id="xhdpi" width="96" height="96"></canvas>
+            <button onclick="downloadIcon('xhdpi', 96, 96)">Download</button>
+        </div>
+        
+        <!-- xxhdpi (144x144) -->
+        <div class="icon">
+            <h3>xxhdpi (144x144)</h3>
+            <canvas id="xxhdpi" width="144" height="144"></canvas>
+            <button onclick="downloadIcon('xxhdpi', 144, 144)">Download</button>
+        </div>
+        
+        <!-- xxxhdpi (192x192) -->
+        <div class="icon">
+            <h3>xxxhdpi (192x192)</h3>
+            <canvas id="xxxhdpi" width="192" height="192"></canvas>
+            <button onclick="downloadIcon('xxxhdpi', 192, 192)">Download</button>
+        </div>
+    </div>
+    
+    <script>
+        // Function to draw a triangle icon
+        function drawTriangleIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, size, size);
+            
+            // Set background
+            ctx.fillStyle = '#4CAF50';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Set triangle properties
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const triangleSize = size * 0.6;
+            
+            // Draw triangle
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY - triangleSize / 2); // Top vertex
+            ctx.lineTo(centerX + triangleSize / 2, centerY + triangleSize / 2); // Bottom right
+            ctx.lineTo(centerX - triangleSize / 2, centerY + triangleSize / 2); // Bottom left
+            ctx.closePath();
+            ctx.fill();
+        }
+        
+        // Function to download icon
+        function downloadIcon(type, width, height) {
+            const canvas = document.getElementById(type);
+            const link = document.createElement('a');
+            link.download = `ic_launcher_${type}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // Initialize all icons
+        window.onload = function() {
+            drawTriangleIcon(document.getElementById('mdpi'), 48);
+            drawTriangleIcon(document.getElementById('hdpi'), 72);
+            drawTriangleIcon(document.getElementById('xhdpi'), 96);
+            drawTriangleIcon(document.getElementById('xxhdpi'), 144);
+            drawTriangleIcon(document.getElementById('xxxhdpi'), 192);
+        };
+    </script>
+</body>
+</html>

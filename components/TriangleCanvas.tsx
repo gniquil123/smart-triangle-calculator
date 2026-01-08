@@ -106,7 +106,8 @@ const TriangleCanvas: React.FC<TriangleCanvasProps> = ({
       const mag1 = Math.sqrt(v1.x**2 + v1.y**2) || 1, mag2 = Math.sqrt(v2.x**2 + v2.y**2) || 1;
       const dirX = (v1.x / mag1 + v2.x / mag2), dirY = (v1.y / mag1 + v2.y / mag2);
       const magDir = Math.sqrt(dirX**2 + dirY**2) || 1;
-      return { x: p.x + (dirX / magDir) * 45, y: p.y + (dirY / magDir) * 45, value: state.angles[i], index: i };
+      // 缩小角度标签偏移量，从45px改为22px，缩小50%
+      return { x: p.x + (dirX / magDir) * 66, y: p.y + (dirY / magDir) * 66, value: state.angles[i], index: i };
     });
     return { sideLabels, angleLabels };
   }, [screenPoints, state]);
@@ -128,22 +129,24 @@ const TriangleCanvas: React.FC<TriangleCanvasProps> = ({
         
         <path 
           d={`M ${screenPoints[0].x} ${screenPoints[0].y} L ${screenPoints[1].x} ${screenPoints[1].y} L ${screenPoints[2].x} ${screenPoints[2].y} Z`}
-          fill={`${themeColors.side}${isDark ? '33' : '1A'}`} stroke={themeColors.side} strokeWidth="4" strokeLinejoin="round" filter="url(#shadow)"
+          fill={`${themeColors.side}${isDark ? '44' : '22'}`} stroke={themeColors.side} strokeWidth="3" strokeLinejoin="round"
           className="transition-all duration-300 ease-out"
         />
 
         {screenPoints.map((p, i) => {
           const p1 = screenPoints[(i + 2) % 3], p2 = screenPoints[(i + 1) % 3];
           const a1 = Math.atan2(p1.y - p.y, p1.x - p.x), a2 = Math.atan2(p2.y - p.y, p2.x - p.x);
-          const start = { x: p.x + 35 * Math.cos(a1), y: p.y + 35 * Math.sin(a1) };
-          const end = { x: p.x + 35 * Math.cos(a2), y: p.y + 35 * Math.sin(a2) };
-          return <path key={`arc-${i}`} d={`M ${start.x} ${start.y} A 35 35 0 0 1 ${end.x} ${end.y}`} fill="none" stroke={themeColors.angle} strokeWidth="2.5" strokeDasharray="4 2" className="opacity-60" />;
+          // 缩小角度圆弧半径，从35改为17，缩小50%
+          const radius = 17;
+          const start = { x: p.x + radius * Math.cos(a1), y: p.y + radius * Math.sin(a1) };
+          const end = { x: p.x + radius * Math.cos(a2), y: p.y + radius * Math.sin(a2) };
+          return <path key={`arc-${i}`} d={`M ${start.x} ${start.y} A ${radius} ${radius} 0 0 1 ${end.x} ${end.y}`} fill="none" stroke={themeColors.angle} strokeWidth="1.5" strokeDasharray="2 1" className="opacity-60" />;
         })}
       </svg>
 
       {interactive && screenPoints.map((p, i) => (
-        <div key={`vertex-${i}`} className="absolute w-10 h-10 -ml-5 -mt-5 rounded-full border-4 shadow-xl cursor-grab active:cursor-grabbing transition-transform hover:scale-125 z-10 flex items-center justify-center" style={{ left: p.x, top: p.y, backgroundColor: themeColors.side, borderColor: isDark ? '#1e293b' : 'white' }} onMouseDown={(e) => { e.stopPropagation(); setDraggingVertex(i); }} onTouchStart={(e) => { e.stopPropagation(); setDraggingVertex(i); }}>
-          <span className="text-white text-[11px] font-bold uppercase">{['A', 'B', 'C'][i]}</span>
+        <div key={`vertex-${i}`} className="absolute w-15 h-15 -ml-7.5 -mt-7.5 rounded-full border-2 shadow-lg cursor-grab active:cursor-grabbing transition-transform hover:scale-150 z-10 flex items-center justify-center" style={{ left: p.x, top: p.y, backgroundColor: themeColors.side, borderColor: isDark ? '#1e293b' : 'white' }} onMouseDown={(e) => { e.stopPropagation(); setDraggingVertex(i); }} onTouchStart={(e) => { e.stopPropagation(); setDraggingVertex(i); }}>
+          <span className="text-white text-[16px] font-bold uppercase">{['A', 'B', 'C'][i]}</span>
         </div>
       ))}
 
@@ -168,7 +171,7 @@ const TriangleCanvas: React.FC<TriangleCanvasProps> = ({
               style={{ borderColor: themeColors.angle, ringColor: `${themeColors.angle}33` } as any}
             />
           ) : (
-            <button disabled={!interactive} onClick={() => setEditingValue({ type: 'angle', index: i, displayValue: l.value, currentValue: l.value.toFixed(1) })} className={`px-3 py-1.5 backdrop-blur-sm border-2 rounded-xl shadow-md font-mono text-sm font-bold transition-all ${isDark ? 'bg-slate-900/80' : 'bg-white/90'} ${interactive ? 'hover:scale-110 cursor-pointer' : ''}`} style={{ borderColor: `${themeColors.angle}66`, color: themeColors.angle }}>
+            <button disabled={!interactive} onClick={() => setEditingValue({ type: 'angle', index: i, displayValue: l.value, currentValue: l.value.toFixed(1) })} className={`px-2 py-0.75 backdrop-blur-sm border-1 rounded-lg shadow-sm font-mono text-xs font-bold transition-all ${isDark ? 'bg-slate-900/80' : 'bg-white/90'} ${interactive ? 'hover:scale-110 cursor-pointer' : ''}`} style={{ borderColor: `${themeColors.angle}66`, color: themeColors.angle }}>
               {['α', 'β', 'γ'][i]} {l.value.toFixed(1)}°
             </button>
           )}
@@ -196,7 +199,7 @@ const TriangleCanvas: React.FC<TriangleCanvasProps> = ({
               style={{ borderColor: themeColors.side, ringColor: `${themeColors.side}33` } as any}
             />
           ) : (
-            <button disabled={!interactive} onClick={() => setEditingValue({ type: 'side', index: i, displayValue: l.value, currentValue: l.value.toFixed(2) })} className={`px-3 py-1.5 backdrop-blur-sm border-2 rounded-xl shadow-md font-mono text-xs font-bold transition-all ${isDark ? 'bg-slate-900/80' : 'bg-white/90'} ${interactive ? 'hover:scale-110 cursor-pointer' : ''}`} style={{ borderColor: `${themeColors.side}66`, color: themeColors.side }}>
+            <button disabled={!interactive} onClick={() => setEditingValue({ type: 'side', index: i, displayValue: l.value, currentValue: l.value.toFixed(2) })} className={`px-2 py-0.75 backdrop-blur-sm border-1 rounded-lg shadow-sm font-mono text-xs font-bold transition-all ${isDark ? 'bg-slate-900/80' : 'bg-white/90'} ${interactive ? 'hover:scale-110 cursor-pointer' : ''}`} style={{ borderColor: `${themeColors.side}66`, color: themeColors.side }}>
               {['a', 'b', 'c'][i]} = {l.value.toFixed(2)}
             </button>
           )}

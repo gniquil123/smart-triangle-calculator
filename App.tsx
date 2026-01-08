@@ -28,8 +28,23 @@ import TriangleCanvas from './components/TriangleCanvas';
 
 const App: React.FC = () => {
   const [mode, setMode] = useState<CalculationMode>(CalculationMode.INTERACTIVE);
-  const [colorTheme, setColorTheme] = useState<ColorTheme>(ColorTheme.STANDARD);
-  const [themeMode, setThemeMode] = useState<ThemeMode>(ThemeMode.LIGHT);
+  const [colorTheme, setColorTheme] = useState<ColorTheme>(() => {
+    const saved = localStorage.getItem('colorTheme');
+    return saved ? (saved as ColorTheme) : ColorTheme.STANDARD;
+  });
+  const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
+    const saved = localStorage.getItem('themeMode');
+    return saved ? (saved as ThemeMode) : ThemeMode.LIGHT;
+  });
+
+  // Save theme settings to localStorage
+  useEffect(() => {
+    localStorage.setItem('colorTheme', colorTheme);
+  }, [colorTheme]);
+
+  useEffect(() => {
+    localStorage.setItem('themeMode', themeMode);
+  }, [themeMode]);
   const [triangle, setTriangle] = useState<TriangleState>(DEFAULT_TRIANGLE);
   const [zoom, setZoom] = useState(100); 
   const [viewVersion, setViewVersion] = useState(0); 
@@ -283,7 +298,7 @@ const App: React.FC = () => {
         />
 
         {/* 缩放控制按钮组，位置在左侧 */}
-        <div className={`absolute bottom-20 left-8 md:bottom-8 z-20 flex flex-col items-center gap-2 backdrop-blur-md p-3 rounded-2xl shadow-xl border ${themeColors.panel}`}>
+        <div className={`absolute bottom-4 left-4 z-20 flex flex-col items-center gap-2 backdrop-blur-md p-3 rounded-2xl shadow-xl border ${themeColors.panel}`}>
           <span className="text-xs font-bold text-slate-400 uppercase tracking-wider whitespace-nowrap">缩放</span>
           
           <div className="flex flex-col items-center gap-2">

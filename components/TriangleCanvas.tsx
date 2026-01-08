@@ -200,7 +200,7 @@ const TriangleCanvas: React.FC<TriangleCanvasProps> = ({
             />
           ) : (
             <button disabled={!interactive} onClick={() => setEditingValue({ type: 'side', index: i, displayValue: l.value, currentValue: l.value.toFixed(2) })} className={`px-2 py-0.75 backdrop-blur-sm border-1 rounded-lg shadow-sm font-mono text-xs font-bold transition-all ${isDark ? 'bg-slate-900/80' : 'bg-white/90'} ${interactive ? 'hover:scale-110 cursor-pointer' : ''}`} style={{ borderColor: `${themeColors.side}66`, color: themeColors.side }}>
-              {['a', 'b', 'c'][i]} = {l.value.toFixed(2)}
+              {['A', 'B', 'C'][i]} = {l.value.toFixed(2)}
             </button>
           )}
         </div>
